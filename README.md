@@ -1,4 +1,4 @@
-# CopyPasta
+# CopyPasta2
 Noun:  copypasta - A block of text which has been copied and pasted from somewhere else.
 Etymology: Blend of copy +‎ paste, likely also with a suffix like -a, from -er.
 [Tukui Project Page](https://www.tukui.org/addons.php?id=186)
