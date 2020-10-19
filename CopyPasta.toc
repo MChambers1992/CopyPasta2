@@ -1,0 +1,27 @@
+## Interface: 80100
+## Title: CopyPasta
+## Description: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of Paste by oscarucb.
+## Notes: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of Paste by oscarucb.
+## Author: Nirgali42
+## X-Credits: oscarucb
+## Version: @project-version@
+## X-Build: @project-revision@
+## X-ReleaseDate: @project-date-iso@
+## X-Revision: $Revision: 2 $
+## SavedVariables: PasteDB 
+## SavedVariablesPerCharacter: 
+## X-Embeds: Ace3, LibDataBroker-1.1, LibDBIcon-1.0, LibStrataFix
+## OptionalDeps: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
+## LoadManagers: AddonLoader
+## X-LoadOn-Always: delayed
+## X-LoadOn-Slash: /paste
+## X-Curse-Packaged-Version: 1.1.2
+## X-Curse-Project-Name: CopyPasta
+## X-Curse-Project-ID: copypasta
+## X-Curse-Repository-ID: wow/copypasta/mainline
+
+embeds.xml
+
+locale.lua
+
+core.lua
