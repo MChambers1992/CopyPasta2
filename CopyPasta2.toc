@@ -2,7 +2,7 @@
 ## Title: CopyPasta2
 ## Description: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of CopyPasta by Nirgali42.
 ## Notes: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of CopyPasta by Nirgali42.
-## Author: Nirgali42
+## Author: Nuaik
 ## X-Credits: Nirgali42, oscarucb
 ## Version: @project-version@
 ## X-Build: @project-revision@
@@ -15,10 +15,6 @@
 ## LoadManagers: AddonLoader
 ## X-LoadOn-Always: delayed
 ## X-LoadOn-Slash: /paste
-## X-Curse-Packaged-Version: 1.1.2
-## X-Curse-Project-Name: CopyPasta
-## X-Curse-Project-ID: copypasta
-## X-Curse-Repository-ID: wow/copypasta/mainline
 
 embeds.xml
 
