@@ -1,9 +1,9 @@
-## Interface: 80100
-## Title: CopyPasta
-## Description: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of Paste by oscarucb.
-## Notes: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of Paste by oscarucb.
+## Interface: 90001
+## Title: CopyPasta2
+## Description: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of CopyPasta by Nirgali42.
+## Notes: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of CopyPasta by Nirgali42.
 ## Author: Nirgali42
-## X-Credits: oscarucb
+## X-Credits: Nirgali42, oscarucb
 ## Version: @project-version@
 ## X-Build: @project-revision@
 ## X-ReleaseDate: @project-date-iso@
