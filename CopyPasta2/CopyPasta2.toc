@@ -1,4 +1,4 @@
-## Interface: 90002
+## Interface: 90005
 ## Title: CopyPasta2
 ## Notes: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of CopyPasta by Nirgali42.
 ## Author: Nuaik
