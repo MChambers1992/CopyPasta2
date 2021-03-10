@@ -1,5 +1,6 @@
 # CopyPasta2
 [Tukui Project Page](https://www.tukui.org/addons.php?id=186)
+
 [Nuaik's YouTube Channel](https://www.youtube.com/channel/UCMvK4RUJtojPBaKND8DULFw)
 
 CopyPasta is a small utility that enables multi-line/unlimited-length pasting of text or commands into WoW. This is a fork of CopyPasta which itself is a fork of Paste by the authors; idlenexusgaming & oscarucb who are both missing in action. Many people have attempted to reach out to the original authors but there has been no response from either. Due to the usefulness and popularity of his addon, it was necessary to fork his project and make it compatible with 9.x.  CopyPasta2 is essentially identical to paste but with its libraries updated for use with Shadowlands.  This addon will be discontinued should oscarucb or idlenexusgaming return from their hiatus to update paste/copypasta.
