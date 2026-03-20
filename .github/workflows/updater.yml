@@ -1,0 +1,31 @@
+name: Update TOC Interface version(s)
+
+on:
+  schedule:
+    - cron: 0 12 * * *
+
+permissions: # required by the pull request action
+  contents: write
+  pull-requests: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone project
+        uses: actions/checkout@v6
+
+      - name: Update TOC Interface version
+        uses: p3lim/toc-interface-updater@v4
+        with:
+          flavor: retail # this is the default
+          beta: false     # this is optional
+          ptr: false      # this is optional
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          title: Update Interface version
+          commit-message: Update Interface version
+          branch: interface-version
+          delete-branch: true
