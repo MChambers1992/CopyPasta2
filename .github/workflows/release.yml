@@ -25,22 +25,36 @@ jobs:
         with:
           args: -d
 
-      - name: Resolve version from package output
-        id: package_meta
+      - name: Prepare numbered release metadata
+        id: release_meta
         run: |
           set -euo pipefail
-          ZIP_PATH=$(ls -1 .release/*.zip | head -n1)
-          ZIP_NAME=$(basename "$ZIP_PATH" .zip)
-          VERSION=${ZIP_NAME#CopyPasta2-}
-          echo "zip_path=$ZIP_PATH" >> "$GITHUB_OUTPUT"
-          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          RELEASE_NUMBER="${GITHUB_RUN_NUMBER}"
+          RELEASE_NAME="CopyPasta2-Release-${RELEASE_NUMBER}"
+          SOURCE_ZIP=$(ls -1 .release/*.zip | head -n1)
+          TARGET_ZIP=".release/${RELEASE_NAME}.zip"
+
+          cp "$SOURCE_ZIP" "$TARGET_ZIP"
+
+          echo "release_name=$RELEASE_NAME" >> "$GITHUB_OUTPUT"
+          echo "tag_name=release-${RELEASE_NUMBER}" >> "$GITHUB_OUTPUT"
+          echo "asset_path=$TARGET_ZIP" >> "$GITHUB_OUTPUT"
+
+      - name: Push release tag for CurseForge
+        run: |
+          set -euo pipefail
+          TAG="${{ steps.release_meta.outputs.tag_name }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Automated release $TAG"
+          git push origin "refs/tags/$TAG"
 
       - name: Publish zip to GitHub Releases
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: release-${{ steps.package_meta.outputs.version }}
-          name: CopyPasta2-Release-${{ steps.package_meta.outputs.version }}
+          tag_name: ${{ steps.release_meta.outputs.tag_name }}
+          name: ${{ steps.release_meta.outputs.release_name }}
           target_commitish: ${{ github.sha }}
-          files: ${{ steps.package_meta.outputs.zip_path }}
+          files: ${{ steps.release_meta.outputs.asset_path }}
           fail_on_unmatched_files: true
           prerelease: false
