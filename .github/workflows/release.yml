@@ -1,62 +1,36 @@
-# This is a basic workflow to help you get started with Actions
+name: Package and Release
 
-name: CI
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the master branch
 on:
   push:
     branches: [ develop ]
-    tags:
-     - '**'
-     - '!**classic**'
 
 permissions:
   contents: write
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
       GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # we first have to clone the AddOn project, this is a required step
       - name: Clone project
         uses: actions/checkout@v6
         with:
-          fetch-depth: 0  # gets git history for changelogs
+          fetch-depth: 0
 
       - name: Package for develop artifacts
         id: package_develop
-        if: github.ref_type == 'branch'
         uses: BigWigsMods/packager@v2
         with:
           args: -d
 
-      - name: Package and publish tagged release
-        id: package_release
-        if: github.ref_type == 'tag'
-        uses: BigWigsMods/packager@v2
-
-      - name: Upload develop artifact
-        if: github.ref_type == 'branch'
-        uses: actions/upload-artifact@v4
+      - name: Publish zip to GitHub Releases
+        uses: softprops/action-gh-release@v2
         with:
-          name: packaged-zips-${{ github.run_number }}
-          path: .release/*.zip
-          if-no-files-found: error
-          include-hidden-files: true
-
-      - name: Upload tagged release artifact
-        if: github.ref_type == 'tag'
-        uses: actions/upload-artifact@v4
-        with:
-          name: packaged-zips-${{ github.run_number }}
-          path: .release/*.zip
-          if-no-files-found: error
-          include-hidden-files: true
+          tag_name: develop-${{ github.sha }}
+          name: Develop build ${{ github.sha }}
+          target_commitish: ${{ github.sha }}
+          prerelease: true
+          files: .release/*.zip
+          fail_on_unmatched_files: true
