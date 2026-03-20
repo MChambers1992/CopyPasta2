@@ -32,12 +32,14 @@ jobs:
           fetch-depth: 0  # gets git history for changelogs
 
       - name: Package for develop artifacts
+        id: package_develop
         if: github.ref_type == 'branch'
         uses: BigWigsMods/packager@v2
         with:
           args: -d
 
       - name: Package and publish tagged release
+        id: package_release
         if: github.ref_type == 'tag'
         uses: BigWigsMods/packager@v2
 
@@ -45,5 +47,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: packaged-zips-${{ github.run_number }}
-          path: .release/*.zip
+          path: ${{ steps.package_develop.outputs.archive_path || steps.package_release.outputs.archive_path }}
           if-no-files-found: error
+          include-hidden-files: true
