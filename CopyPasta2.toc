@@ -3,6 +3,7 @@
 ## Notes: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of CopyPasta by Nirgali42.
 ## Author: Nuaik
 ## X-Credits: Nirgali42, oscarucb
+## X-Curse-Project-ID: 858666
 ## Version: 1.0.20
 ## SavedVariables: PasteDB 
 ## SavedVariablesPerCharacter: 
