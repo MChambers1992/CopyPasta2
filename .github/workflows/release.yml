@@ -11,6 +11,9 @@ on:
      - '**'
      - '!**classic**'
 
+permissions:
+  contents: write
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -18,16 +21,29 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
-      GITHUB_OAUTH: ${{ secrets.REPO_SETUP_TOKEN }}
+      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # we first have to clone the AddOn project, this is a required step
       - name: Clone project
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0  # gets git history for changelogs
 
-      # once cloned, we just run the GitHub Action for the packager project
-      - name: Package and release
+      - name: Package for develop artifacts
+        if: github.ref_type == 'branch'
         uses: BigWigsMods/packager@v2
+        with:
+          args: -d
+
+      - name: Package and publish tagged release
+        if: github.ref_type == 'tag'
+        uses: BigWigsMods/packager@v2
+
+      - name: Upload packaged zips
+        uses: actions/upload-artifact@v4
+        with:
+          name: packaged-zips-${{ github.run_number }}
+          path: .release/*.zip
+          if-no-files-found: error
