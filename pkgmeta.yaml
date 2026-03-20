@@ -1,0 +1,32 @@
+package-as: CopyPasta2
+
+ignore:
+  - .git
+  - .github
+  - README.md
+
+externals:
+    libs/AceAddon-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceAddon-3.0
+    libs/AceConfig-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0
+    libs/AceConsole-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceConsole-3.0
+    libs/AceDB-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceDB-3.0
+    libs/AceDBOptions-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceDBOptions-3.0
+    libs/AceGUI-3.0:
+        url: https://repos.wowace.com/wow/ace3/trunk/AceGUI-3.0
+    libs/CallbackHandler-1.0:
+        url: https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
+    libs/LibDataBroker-1.1:
+        url: https://github.com/tekkub/libdatabroker-1-1.git
+    libs/LibDBIcon-1.0:
+        url: https://repos.wowace.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
+        tag: latest
+    libs/LibStub:
+        url: https://repos.wowace.com/wow/libstub/tags/1.0
+
+license-output: LICENSE
+enable-nolib-creation: no
