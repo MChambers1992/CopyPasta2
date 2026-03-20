@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: packaged-zips-${{ github.run_number }}
-          path: ${{ steps.package_develop.outputs.archive_path }}
+          path: .release/*.zip
           if-no-files-found: error
           include-hidden-files: true
 
@@ -57,6 +57,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: packaged-zips-${{ github.run_number }}
-          path: ${{ steps.package_release.outputs.archive_path }}
+          path: .release/*.zip
           if-no-files-found: error
           include-hidden-files: true
