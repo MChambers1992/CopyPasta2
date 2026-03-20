@@ -43,10 +43,20 @@ jobs:
         if: github.ref_type == 'tag'
         uses: BigWigsMods/packager@v2
 
-      - name: Upload packaged zips
+      - name: Upload develop artifact
+        if: github.ref_type == 'branch'
         uses: actions/upload-artifact@v4
         with:
           name: packaged-zips-${{ github.run_number }}
-          path: ${{ steps.package_develop.outputs.archive_path || steps.package_release.outputs.archive_path }}
+          path: ${{ steps.package_develop.outputs.archive_path }}
+          if-no-files-found: error
+          include-hidden-files: true
+
+      - name: Upload tagged release artifact
+        if: github.ref_type == 'tag'
+        uses: actions/upload-artifact@v4
+        with:
+          name: packaged-zips-${{ github.run_number }}
+          path: ${{ steps.package_release.outputs.archive_path }}
           if-no-files-found: error
           include-hidden-files: true
