@@ -23,7 +23,7 @@ jobs:
         id: package_develop
         uses: BigWigsMods/packager@v2
         with:
-          args: -d
+          args: -d -n CopyPasta2-Release-${{ github.run_number }}
 
       - name: Prepare numbered release metadata
         id: release_meta
@@ -31,10 +31,7 @@ jobs:
           set -euo pipefail
           RELEASE_NUMBER="${GITHUB_RUN_NUMBER}"
           RELEASE_NAME="CopyPasta2-Release-${RELEASE_NUMBER}"
-          SOURCE_ZIP=$(ls -1 .release/*.zip | head -n1)
           TARGET_ZIP=".release/${RELEASE_NAME}.zip"
-
-          cp "$SOURCE_ZIP" "$TARGET_ZIP"
 
           echo "release_name=$RELEASE_NAME" >> "$GITHUB_OUTPUT"
           echo "tag_name=release-${RELEASE_NUMBER}" >> "$GITHUB_OUTPUT"
