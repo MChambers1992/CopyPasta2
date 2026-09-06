@@ -22,7 +22,7 @@ local defaults = {
 }
 
 local settings = defaults.profile
-local optionsFrame
+local optionsFrame, optionsCategoryID
 local charName
 local hiddenFrame = CreateFrame("Button", addonName.."HiddenFrame", UIParent)
 local revision = tonumber(("$Revision: 54 $"):match("%d+"))
@@ -246,7 +246,7 @@ function addon:OnInitialize()
   local options = addon:myOptions()
   LibStub("AceConfigRegistry-3.0"):ValidateOptionsTable(options, addonName)
   LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, options, {"paste"})
-  optionsFrame = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, addonName, nil, "general")
+  optionsFrame, optionsCategoryID = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, addonName, nil, "general")
   optionsFrame.default = function()
        for k,v in pairs(defaults.profile) do settings[k] = table_clone(v) end
        addon:RefreshConfig()
@@ -271,7 +271,7 @@ function addon:Config()
       optionsFrame:Hide()
       HideUIPanel(SettingsPanel);
     else
-      Settings.OpenToCategory(addonName, true)
+      Settings.OpenToCategory(optionsCategoryID)
     end
   end
 end
