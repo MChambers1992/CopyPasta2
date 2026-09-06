@@ -1,0 +1,57 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install validation tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes lua5.1 lua-check libxml2-utils
+
+      - name: Check Lua syntax
+        run: luac5.1 -p core.lua locale.lua
+
+      - name: Run Lua static analysis
+        run: luacheck --std lua51 --no-global --no-unused --ignore 611 612 613 614 631 core.lua locale.lua
+
+      - name: Validate XML
+        run: xmllint --noout Bindings.xml embeds.xml
+
+      - name: Validate packaging YAML
+        run: ruby -e 'require "yaml"; YAML.safe_load_file("pkgmeta.yaml", aliases: true)'
+
+      - name: Validate TOC metadata and file entries
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test "$(grep -c '^## Interface:' CopyPasta2.toc)" -eq 1
+          grep -Eq '^## Interface: [0-9]+$' CopyPasta2.toc
+          grep -Fxq '## Version: @project-version@' CopyPasta2.toc
+          grep -Eq '^## X-Curse-Project-ID: [0-9]+$' CopyPasta2.toc
+
+          if grep -nE '[[:blank:]]+$' CopyPasta2.toc; then
+            echo "CopyPasta2.toc contains trailing whitespace"
+            exit 1
+          fi
+
+          while IFS= read -r addon_file; do
+            test -f "$addon_file" || {
+              echo "Missing TOC file: $addon_file"
+              exit 1
+            }
+          done < <(awk 'NF && $1 !~ /^##/' CopyPasta2.toc)

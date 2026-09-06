@@ -1,20 +1,17 @@
 ## Interface: 120100
 ## Title: CopyPasta2
-## Notes: Enables multi-line/unlimited-length pasting of text or commands into WoW, a fork of CopyPasta by Nirgali42.
+## Notes: Provides multi-line and unlimited-length pasting of text or commands into WoW.
 ## Author: Nuaik
+## Version: @project-version@
+## IconTexture: Interface\Icons\INV_Scroll_08
 ## X-Credits: Nirgali42, oscarucb
+## X-Website: https://www.curseforge.com/wow/addons/copypasta2
 ## X-Curse-Project-ID: 858666
-## Version: 1.0.20
-## SavedVariables: PasteDB 
-## SavedVariablesPerCharacter: 
-## X-Embeds: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
+## X-Category: Chat & Communication
+## SavedVariables: PasteDB
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
-## LoadManagers: AddonLoader
-## X-LoadOn-Always: delayed
-## X-LoadOn-Slash: /paste
+## X-Embeds: Ace3, LibDataBroker-1.1, LibDBIcon-1.0
 
 embeds.xml
-
 locale.lua
-
 core.lua
