@@ -345,7 +345,7 @@ function addon:CreateWindow()
   f.content:Raise()
   f:Hide()
   addon.gui = f
-  f:SetTitle(addonName.."     "..addon.version)
+  f:SetTitle(addonName)
   --addon:fixTitle()
   f:SetCallback("OnClose", OnClose)
   f:SetLayout("Fill")
