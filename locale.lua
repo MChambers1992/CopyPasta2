@@ -1,7 +1,7 @@
--- my custom locale file - more streamlined than AceLocale and no lib dependency
+-- Lightweight localization without an AceLocale dependency
 
--- To help with missing translations please go here:
-local url = "https://github.com/curseforge-mirror/BetterTooltips"
+-- Report missing translations or contribute updates here:
+local url = "https://github.com/MChambers1992/CopyPasta2/issues"
 
 local addonName, vars = ...
 local Ld, La = {}, {}
