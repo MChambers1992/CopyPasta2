@@ -5,6 +5,7 @@ CopyPasta2 is a World of Warcraft Retail addon for pasting multi-line text and l
 - [Download on CurseForge](https://www.curseforge.com/wow/addons/copypasta2)
 - [Report a bug or request an improvement](https://github.com/MChambers1992/CopyPasta2/issues)
 - [View releases](https://github.com/MChambers1992/CopyPasta2/releases)
+- [Watch Nuaik on YouTube](https://www.youtube.com/channel/UCMvK4RUJtojPBaKND8DULFw)
 
 ## Features
 
