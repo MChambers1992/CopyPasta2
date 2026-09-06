@@ -3,10 +3,6 @@ local L = vars.L
 Paste = LibStub("AceAddon-3.0"):NewAddon(addonName)
 local addon = Paste 
 local AceGUI = LibStub("AceGUI-3.0")
-vars.svnrev = vars.svnrev or {}
-local svnrev = vars.svnrev
-svnrev["core.lua"] = tonumber(("$Revision: 54 $"):match("%d+"))
-
 local defaults = {
   profile = {
     debug = false, -- for addon debugging
@@ -25,7 +21,6 @@ local settings = defaults.profile
 local optionsFrame, optionsCategoryID
 local charName
 local hiddenFrame = CreateFrame("Button", addonName.."HiddenFrame", UIParent)
-local revision = tonumber(("$Revision: 54 $"):match("%d+"))
 local minimapIcon = LibStub("LibDBIcon-1.0")
 local LDB, LDBo
 local linelimit = 254
@@ -218,30 +213,8 @@ function addon:Update()
   end
 end
 
-function addon:SetupVersion()
-   local svnrev = 0
-   local files = vars.svnrev
-   files["X-Build"] = tonumber((C_AddOns.GetAddOnMetadata(addonName, "X-Build") or ""):match("%d+"))
-   files["X-Revision"] = tonumber((C_AddOns.GetAddOnMetadata(addonName, "X-Revision") or ""):match("%d+"))
-   for _,v in pairs(files) do -- determine highest file revision
-     if v and v > svnrev then
-       svnrev = v
-     end
-   end
-   addon.revision = svnrev
-
-   files["X-Curse-Packaged-Version"] = C_AddOns.GetAddOnMetadata(addonName, "X-Curse-Packaged-Version")
-   files["Version"] = C_AddOns.GetAddOnMetadata(addonName, "Version")
-   addon.version = files["X-Curse-Packaged-Version"] or files["Version"] or "@"
-   if string.find(addon.version, "@") then -- dev copy uses "@.project-version.@"
-      addon.version = "r"..svnrev
-   end
-end
-
-
 function addon:OnInitialize()
   addon.db = LibStub("AceDB-3.0"):New("PasteDB", defaults)
-  addon:SetupVersion()
   addon:RefreshConfig()
   local options = addon:myOptions()
   LibStub("AceConfigRegistry-3.0"):ValidateOptionsTable(options, addonName)
