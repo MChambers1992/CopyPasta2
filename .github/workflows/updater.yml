@@ -19,7 +19,13 @@ jobs:
       - name: Update TOC Interface version
         uses: p3lim/toc-interface-updater@v4
         with:
-          flavor: retail # this is the default
+          # Order matches the TOC. Use vanilla, not classic_era: the updater matches classic_era as Mists.
+          flavor: |
+            retail
+            forever
+            mists
+            tbc
+            vanilla
           beta: false     # this is optional
           ptr: false      # this is optional
 

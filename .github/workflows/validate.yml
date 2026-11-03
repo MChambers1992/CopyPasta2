@@ -41,7 +41,7 @@ jobs:
           set -euo pipefail
 
           test "$(grep -c '^## Interface:' CopyPasta2.toc)" -eq 1
-          grep -Eq '^## Interface: [0-9]+$' CopyPasta2.toc
+          grep -Eq '^## Interface: [0-9]+(, [0-9]+)*$' CopyPasta2.toc
           grep -Fxq '## Version: @project-version@' CopyPasta2.toc
           grep -Eq '^## X-Curse-Project-ID: [0-9]+$' CopyPasta2.toc
 

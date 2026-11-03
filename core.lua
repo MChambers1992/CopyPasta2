@@ -24,6 +24,7 @@ local hiddenFrame = CreateFrame("Button", addonName.."HiddenFrame", UIParent)
 local minimapIcon = LibStub("LibDBIcon-1.0")
 local LDB, LDBo
 local linelimit = 254
+local SendChatMessage = C_ChatInfo.SendChatMessage
 
 local function chatMsg(msg)
      DEFAULT_CHAT_FRAME:AddMessage(addonName..": "..msg)
@@ -490,11 +491,11 @@ addon.wherefn = {
      chatMsg(ERR_FRIEND_NOT_FOUND)
   end,
   [CHAT_DEFAULT] = function(str) 
-    ChatFrame_OpenChat("")
-    local edit = ChatEdit_GetActiveWindow();
+    ChatFrameUtil.OpenChat("")
+    local edit = ChatFrameUtil.GetActiveWindow();
     edit:SetText(str)
-    ChatEdit_SendText(edit,1)
-    ChatEdit_DeactivateChat(edit)
+    ChatFrameEditBoxMixin.SendText(edit,1)
+    ChatFrameUtil.DeactivateChat(edit)
   end,
 }
 
