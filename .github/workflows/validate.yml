@@ -26,7 +26,7 @@ jobs:
         run: luac5.1 -p core.lua locale.lua
 
       - name: Run Lua static analysis
-        run: luacheck --std lua51 --no-global --no-unused --ignore 611 612 613 614 631 core.lua locale.lua
+        run: luacheck core.lua locale.lua --std lua51 --no-global --no-unused --ignore 611 612 613 614 631
 
       - name: Validate XML
         run: xmllint --noout Bindings.xml embeds.xml
