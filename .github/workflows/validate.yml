@@ -32,7 +32,8 @@ jobs:
         run: xmllint --noout Bindings.xml embeds.xml
 
       - name: Validate packaging YAML
-        run: ruby -e 'require "yaml"; YAML.safe_load_file("pkgmeta.yaml", aliases: true)'
+        run: |
+          ruby -e 'require "yaml"; YAML.safe_load_file("pkgmeta.yaml", aliases: true)'
 
       - name: Validate TOC metadata and file entries
         shell: bash
