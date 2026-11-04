@@ -26,8 +26,8 @@ jobs:
         run: luac5.1 -p core.lua locale.lua
 
       - name: Run Lua static analysis
-        # 432: script handlers take self inside methods. 541: empty do-end blocks are @localization@ placeholders.
-        run: luacheck core.lua locale.lua --std lua51 --no-global --no-unused --ignore 432 541 611 612 613 614 631
+        # 432: script handlers take self inside methods.
+        run: luacheck core.lua locale.lua --std lua51 --no-global --no-unused --ignore 432 611 612 613 614 631
 
       - name: Validate XML
         run: xmllint --noout Bindings.xml embeds.xml
