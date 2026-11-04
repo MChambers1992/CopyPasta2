@@ -1,0 +1,33 @@
+name: Publish Release
+
+# Started by the Package and Release workflow on a release-N tag. Run it by hand from a tag to republish that release.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      # packager@v2 reads GITHUB_API_TOKEN; GH_API_TOKEN is only read by its unreleased master.
+      GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Require a release tag
+        run: |
+          if [[ "${GITHUB_REF}" != refs/tags/release-* ]]; then
+            echo "Run this workflow on a release-N tag, not ${GITHUB_REF}."
+            exit 1
+          fi
+
+      - name: Clone project
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      # Uploads one zip to CurseForge, tagged with every interface version in the TOC, and to GitHub Releases.
+      - name: Package and upload
+        uses: BigWigsMods/packager@v2
