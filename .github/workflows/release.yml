@@ -6,14 +6,13 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
-  build:
+  tag:
     runs-on: ubuntu-latest
     env:
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-      # packager@v2 reads GITHUB_API_TOKEN; GH_API_TOKEN is only read by its unreleased master.
-      GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_TOKEN: ${{ github.token }}
 
     steps:
       - name: Clone project
@@ -21,20 +20,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      # The packager publishes a tagged HEAD as a release; an untagged HEAD would upload as an alpha.
-      - name: Push release tag
+      # The packager skips a branch push whose HEAD is already tagged, expecting the tag push to start its own run.
+      # Tags pushed with the workflow token start no workflows, so the Publish Release workflow is started explicitly,
+      # on the tag. That run is a dispatch, so the packager publishes the tagged HEAD as a release instead of skipping it.
+      - name: Push release tag and start publishing
         run: |
           set -euo pipefail
           TAG="release-${GITHUB_RUN_NUMBER}"
           if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
             echo "$TAG already exists, reusing it"
-            exit 0
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -a "$TAG" -m "Automated release $TAG"
+            git push origin "refs/tags/$TAG"
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -a "$TAG" -m "Automated release $TAG"
-          git push origin "refs/tags/$TAG"
-
-      # Uploads one zip to CurseForge, tagged with every interface version in the TOC, and to GitHub Releases.
-      - name: Package and upload
-        uses: BigWigsMods/packager@v2
+          gh workflow run publish.yml --ref "$TAG"

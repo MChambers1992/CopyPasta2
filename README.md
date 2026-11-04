@@ -65,7 +65,7 @@ The addon is intentionally small:
 - `embeds.xml` loads packaged dependencies
 - `pkgmeta.yaml` configures release packaging
 
-Pull requests run Lua syntax and static checks plus TOC, XML, and packaging metadata validation. Each push to `develop` creates a `release-N` tag, then the release workflow packages the addon with the BigWigs packager and uploads one zip to CurseForge, tagged for every supported client, and to GitHub Releases.
+Pull requests run Lua syntax and static checks plus TOC, XML, and packaging metadata validation. Each push to `develop` creates a `release-N` tag and starts the publish workflow on that tag. The publish workflow packages the addon with the BigWigs packager and uploads one zip to CurseForge, tagged for every supported client, and to GitHub Releases.
 
 Runtime changes should also be verified in each supported client.
 
