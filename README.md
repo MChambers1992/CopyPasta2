@@ -1,6 +1,6 @@
 # CopyPasta2
 
-CopyPasta2 is a World of Warcraft Retail addon for pasting multi-line text and long messages. It sends each line separately and splits messages that exceed the in-game chat limit.
+CopyPasta2 is a World of Warcraft addon for pasting multi-line text and long messages. It sends each line separately and splits messages that exceed the in-game chat limit.
 
 - [Download on CurseForge](https://www.curseforge.com/wow/addons/copypasta2)
 - [Report a bug or request an improvement](https://github.com/MChambers1992/CopyPasta2/issues)
@@ -19,11 +19,13 @@ CopyPasta2 is a World of Warcraft Retail addon for pasting multi-line text and l
 
 ## Installation
 
-Install CopyPasta2 through CurseForge, or extract a release archive into:
+Install CopyPasta2 through CurseForge, or extract a release archive into the `Interface/AddOns` folder of the game client you play. For Retail, that is:
 
 ```text
 World of Warcraft/_retail_/Interface/AddOns/CopyPasta2
 ```
+
+The same release archive works in every supported client.
 
 If the older Paste or CopyPasta addon is installed, disable it to avoid overlapping commands or behaviour.
 
@@ -40,7 +42,15 @@ A key binding for showing or hiding the window is available under **Options > Ke
 
 ## Compatibility
 
-CopyPasta2 targets the current Retail version of World of Warcraft. The supported interface version is maintained automatically in the TOC file.
+CopyPasta2 supports these World of Warcraft clients from a single package:
+
+- Retail
+- World of Warcraft: Forever
+- Mists of Pandaria Classic
+- Burning Crusade Classic Anniversary
+- Classic Era, including Hardcore and Season of Discovery
+
+The TOC file lists one interface version per client, and the updater workflow keeps them current.
 
 Other chat addons may alter chat behaviour. Please open an issue with reproduction steps and any Lua error if you find a conflict.
 
@@ -55,9 +65,9 @@ The addon is intentionally small:
 - `embeds.xml` loads packaged dependencies
 - `pkgmeta.yaml` configures release packaging
 
-Pull requests run Lua syntax and static checks plus TOC, XML, and packaging metadata validation. Pushes to `develop` are packaged through the repository release workflow.
+Pull requests run Lua syntax and static checks plus TOC, XML, and packaging metadata validation. Each push to `develop` creates a `release-N` tag, then the release workflow packages the addon with the BigWigs packager and uploads one zip to CurseForge, tagged for every supported client, and to GitHub Releases.
 
-Runtime changes should also be verified in the current Retail client.
+Runtime changes should also be verified in each supported client.
 
 ## Credits
 

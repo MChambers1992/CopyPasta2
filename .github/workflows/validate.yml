@@ -26,13 +26,15 @@ jobs:
         run: luac5.1 -p core.lua locale.lua
 
       - name: Run Lua static analysis
-        run: luacheck --std lua51 --no-global --no-unused --ignore 611 612 613 614 631 core.lua locale.lua
+        # 432: script handlers take self inside methods. 541: empty do-end blocks are @localization@ placeholders.
+        run: luacheck core.lua locale.lua --std lua51 --no-global --no-unused --ignore 432 541 611 612 613 614 631
 
       - name: Validate XML
         run: xmllint --noout Bindings.xml embeds.xml
 
       - name: Validate packaging YAML
-        run: ruby -e 'require "yaml"; YAML.safe_load_file("pkgmeta.yaml", aliases: true)'
+        run: |
+          ruby -e 'require "yaml"; YAML.safe_load_file("pkgmeta.yaml", aliases: true)'
 
       - name: Validate TOC metadata and file entries
         shell: bash
@@ -40,7 +42,7 @@ jobs:
           set -euo pipefail
 
           test "$(grep -c '^## Interface:' CopyPasta2.toc)" -eq 1
-          grep -Eq '^## Interface: [0-9]+$' CopyPasta2.toc
+          grep -Eq '^## Interface: [0-9]+(, [0-9]+)*$' CopyPasta2.toc
           grep -Fxq '## Version: @project-version@' CopyPasta2.toc
           grep -Eq '^## X-Curse-Project-ID: [0-9]+$' CopyPasta2.toc
 

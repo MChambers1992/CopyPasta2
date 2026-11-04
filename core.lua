@@ -24,6 +24,7 @@ local hiddenFrame = CreateFrame("Button", addonName.."HiddenFrame", UIParent)
 local minimapIcon = LibStub("LibDBIcon-1.0")
 local LDB, LDBo
 local linelimit = 254
+local SendChatMessage = C_ChatInfo.SendChatMessage
 
 local function chatMsg(msg)
      DEFAULT_CHAT_FRAME:AddMessage(addonName..": "..msg)
@@ -220,13 +221,13 @@ function addon:OnInitialize()
   LibStub("AceConfigRegistry-3.0"):ValidateOptionsTable(options, addonName)
   LibStub("AceConfig-3.0"):RegisterOptionsTable(addonName, options, {"paste"})
   optionsFrame, optionsCategoryID = LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, addonName, nil, "general")
-  optionsFrame.default = function()
+  -- The Settings panel's Defaults button calls frame:OnDefault(); the old Interface Options called frame.default.
+  optionsFrame.OnDefault = function()
        for k,v in pairs(defaults.profile) do settings[k] = table_clone(v) end
        addon:RefreshConfig()
-       if InterfaceOptionsFrame:IsShown() then
-         addon:Config(); addon:Config()
-       end
+       LibStub("AceConfigRegistry-3.0"):NotifyChange(addonName)
   end
+  optionsFrame.default = optionsFrame.OnDefault
   options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(addon.db)
   LibStub("AceConfigDialog-3.0"):AddToBlizOptions(addonName, L["Profiles"], addonName, "profiles")
 
@@ -490,11 +491,11 @@ addon.wherefn = {
      chatMsg(ERR_FRIEND_NOT_FOUND)
   end,
   [CHAT_DEFAULT] = function(str) 
-    ChatFrame_OpenChat("")
-    local edit = ChatEdit_GetActiveWindow();
+    ChatFrameUtil.OpenChat("")
+    local edit = ChatFrameUtil.GetActiveWindow();
     edit:SetText(str)
-    ChatEdit_SendText(edit,1)
-    ChatEdit_DeactivateChat(edit)
+    ChatFrameEditBoxMixin.SendText(edit,1)
+    ChatFrameUtil.DeactivateChat(edit)
   end,
 }
 

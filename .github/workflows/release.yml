@@ -11,7 +11,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      # packager@v2 reads GITHUB_API_TOKEN; GH_API_TOKEN is only read by its unreleased master.
+      GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Clone project
@@ -19,39 +21,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Package for develop artifacts
-        id: package_develop
-        uses: BigWigsMods/packager@v2
-        with:
-          args: -d -n CopyPasta2-Release-${{ github.run_number }}
-
-      - name: Prepare numbered release metadata
-        id: release_meta
+      # The packager publishes a tagged HEAD as a release; an untagged HEAD would upload as an alpha.
+      - name: Push release tag
         run: |
           set -euo pipefail
-          RELEASE_NUMBER="${GITHUB_RUN_NUMBER}"
-          RELEASE_NAME="CopyPasta2-Release-${RELEASE_NUMBER}"
-          TARGET_ZIP=".release/${RELEASE_NAME}.zip"
-
-          echo "release_name=$RELEASE_NAME" >> "$GITHUB_OUTPUT"
-          echo "tag_name=release-${RELEASE_NUMBER}" >> "$GITHUB_OUTPUT"
-          echo "asset_path=$TARGET_ZIP" >> "$GITHUB_OUTPUT"
-
-      - name: Push release tag for CurseForge
-        run: |
-          set -euo pipefail
-          TAG="${{ steps.release_meta.outputs.tag_name }}"
+          TAG="release-${GITHUB_RUN_NUMBER}"
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            echo "$TAG already exists, reusing it"
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "$TAG" -m "Automated release $TAG"
           git push origin "refs/tags/$TAG"
 
-      - name: Publish zip to GitHub Releases
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ steps.release_meta.outputs.tag_name }}
-          name: ${{ steps.release_meta.outputs.release_name }}
-          target_commitish: ${{ github.sha }}
-          files: ${{ steps.release_meta.outputs.asset_path }}
-          fail_on_unmatched_files: true
-          prerelease: false
+      # Uploads one zip to CurseForge, tagged with every interface version in the TOC, and to GitHub Releases.
+      - name: Package and upload
+        uses: BigWigsMods/packager@v2
